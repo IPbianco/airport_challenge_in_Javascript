@@ -24,6 +24,12 @@ describe('Airport', function(){
       expect(airport.land(plane)).toEqual('Sorry, stormy weather')
       expect(airport._hangar.length).toEqual(0)
     });
+
+    it('Disallow landing when airport is full', function(){
+      airport._capacity = 0
+      spyOn(airport, 'isStormy').and.returnValue(false)
+      expect(airport.land(plane)).toEqual("Sorry, the airport is full")
+    });
   });
 
   describe('Airport to instruct the plane to take off', function(){
@@ -45,6 +51,13 @@ describe('Airport', function(){
       spyOn(airport, 'isStormy').and.returnValue(true)
       expect(airport.takeOff(plane)).toEqual('Sorry, stormy weather')
       expect(airport._hangar.length).toEqual(1)
+    });
+  });
+
+  describe('Overwrite default capacity of the airport', function(){
+    it('Sets a new capacity', function(){
+      airport.changeCapacity(10)
+      expect(airport._capacity).toEqual(10)
     });
   });
 });
